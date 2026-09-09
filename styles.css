@@ -1,7 +1,4 @@
-/*
-  Yulia-specific layer only.
-  Base layout, proportions and responsive behavior come directly from ichAEY/claytone-current.
-*/
+/* Yulia-specific identity layer. */
 :root{--y-gold:#a9854d;--y-gold-dark:#71572f;--y-cream:#f7f2e9;--y-ink:#28231f}
 [hidden]{display:none!important}
 html,body{background:var(--y-cream)}
@@ -21,8 +18,7 @@ html,body{background:var(--y-cream)}
 .yulia-site .mct-sticky,.yulia-site .mct-open-status.is-open{--sticky-accent:#d2b47d}
 .yulia-site .mct-contact-icon{color:#806039!important}
 
-/* Hero: the nail colour fan from claytone-current is intentionally absent.
-   Julia's real portrait occupies that visual slot instead. */
+/* Julia's real portrait occupies the hero visual. */
 .yulia-hero-visual{overflow:hidden!important}
 .yulia-hero-portrait img{object-fit:cover;object-position:center 28%;width:100%;height:100%;display:block}
 .yulia-hero-portrait figcaption span{font-family:"Cormorant Garamond",Georgia,serif}
@@ -43,8 +39,7 @@ html,body{background:var(--y-cream)}
 .mct-lightbox-figure figcaption{display:flex;justify-content:space-between;gap:15px;color:rgba(255,255,255,.7);font:600 9px/1.2 "Manrope",Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase}
 
 @media(max-width:767px){
-  /* The static build keeps both modal elements in the DOM while hidden.
-     Reset claytone-current's broad :has() lock, then lock only an open modal. */
+  /* Both modal elements stay in the DOM while hidden; lock only an open modal. */
   body:has(.mct-gallery-overlay),
   body:has(.mct-lightbox){overflow-x:hidden!important;overflow-y:visible!important;touch-action:pan-y!important}
   body:has(.mct-gallery-overlay:not([hidden])),

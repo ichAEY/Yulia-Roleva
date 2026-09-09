@@ -51,24 +51,24 @@ style:[
 {name:'Коктейльная укладка — ниже плеч',price:'3 500 ₽',time:'',description:'Мытьё головы, укладка на горячий инструмент с использованием стайлинговых средств.'}
 ]};
 const reviews=[
-{name:'Дарья',meta:'26 июля 2026 · Блонд',text:'Огромное спасибо за идеальный блонд! Цвет получился именно таким, как я мечтала — чистым, благородным и без желтизны. При этом волосы остались мягкими и живыми.'},
-{name:'Ольга',meta:'08 июня 2026 · Стрижка и уход',text:'Огромное спасибо мастеру Юлии за профессионализм и отличную работу. Волосы напитались, стали шелковистыми, блестящими и плотными. Спасибо за внимательное отношение.'},
-{name:'Екатерина',meta:'20 марта 2026 · Тонирование',text:'Юлия учла все мои пожелания по цвету, подобрала идеальный оттенок. Уходовая процедура заметно улучшила состояние волос. Рекомендую Юлю как настоящего профессионала.'},
-{name:'Анастасия',meta:'07 марта 2026 · Стрижка и окрашивание',text:'Юлия, как всегда на высоте! Стрижка и окраска очень классные! Я в восторге! Спасибо огромное!'},
-{name:'Анна',meta:'21 февраля 2026 · Окрашивание корней',text:'Если вы переживаете за ваши волосы — вам к данному мастеру, и все переживания пройдут. А волосы только скажут спасибо.'},
-{name:'Анна',meta:'19 апреля 2026 · Стрижка',text:'Всегда внимательно выслушает все мои пожелания и предложит несколько вариантов, как будет лучше. Работа выполнена безупречно. Особенно хочу отметить профессионализм и аккуратность.'}
+{name:'Дарья',text:'Огромное спасибо за идеальный блонд! Цвет получился именно таким, как я мечтала — чистым, благородным и без желтизны. При этом волосы остались мягкими и живыми.'},
+{name:'Ольга',text:'Огромное спасибо мастеру Юлии за профессионализм и отличную работу. Волосы напитались, стали шелковистыми, блестящими и плотными. Очень внимательное отношение.'},
+{name:'Анна',text:'Всегда внимательно выслушает все мои пожелания и предложит несколько вариантов, как будет лучше. Работа выполнена безупречно. Атмосфера очень дружелюбная.'},
+{name:'Екатерина',text:'Осталась очень довольна качеством работы. Юлия учла все пожелания по цвету, подобрала идеальный оттенок. Рекомендую Юлю как настоящего профессионала.'},
+{name:'Анастасия',text:'Юлия, как всегда на высоте! Стрижка и окраска очень классные! Я в восторге! Спасибо огромное!'},
+{name:'Анна',text:'Если вы переживаете за ваши волосы — вам к этому мастеру. После работы волосы только скажут спасибо.'}
 ];
 
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 
-// Menu — same compact interaction as claytone-current.
+// Compact navigation.
 const menuButton=$('#menuButton'),mobileNavigation=$('#mobileNavigation'),menuWrap=$('#menuWrap');
 function closeMenu(){if(!menuButton||!mobileNavigation)return;menuButton.classList.remove('is-open');menuButton.setAttribute('aria-expanded','false');mobileNavigation.hidden=true}
 menuButton?.addEventListener('click',()=>{const open=mobileNavigation.hidden;mobileNavigation.hidden=!open;menuButton.classList.toggle('is-open',open);menuButton.setAttribute('aria-expanded',String(open))});
 $$('#mobileNavigation a').forEach(a=>a.addEventListener('click',closeMenu));
 document.addEventListener('pointerdown',e=>{if(menuWrap&&!menuWrap.contains(e.target))closeMenu()});
 
-// Reveal-on-scroll from the source template.
+// Reveal sections on scroll.
 const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');revealObserver.unobserve(entry.target)}}),{threshold:.12,rootMargin:'0px 0px -10% 0px'});
 $$('.mct-reveal').forEach(el=>revealObserver.observe(el));
 
@@ -78,7 +78,7 @@ function updateLead(){if(!lead)return;const center=lead.getBoundingClientRect().
 lead?.addEventListener('scroll',updateLead,{passive:true});
 leadDots.forEach((dot,i)=>dot.addEventListener('click',()=>{const card=lead?.children[i];if(!lead||!card)return;const a=lead.getBoundingClientRect(),b=card.getBoundingClientRect();lead.scrollTo({left:lead.scrollLeft+(b.left-a.left)-(lead.clientWidth-card.clientWidth)/2,behavior:'smooth'})}));
 
-// Exact claytone-current film-strip markup, populated with Julia's work.
+// Endless portfolio film strip populated with Julia's work.
 const filmTrack=$('#filmTrack');
 const filmImages=works.slice(0,12),modules=[filmImages.slice(0,4),filmImages.slice(4,8),filmImages.slice(8,12)];
 if(filmTrack){for(let set=0;set<3;set++){const setEl=document.createElement('div');setEl.className='dct-gallery-set';setEl.setAttribute('aria-hidden',set===1?'false':'true');modules.forEach((arr,m)=>{const mod=document.createElement('div');mod.className=`dct-gallery-module dct-gallery-module-${m+1}`;arr.forEach((src,i)=>{const b=document.createElement('button');b.className=`dct-film-frame dct-film-frame-${i+1} js-work`;b.type='button';b.dataset.src=src;b.innerHTML=`<img src="./${src}" alt="Работа Юлии Ролевой" loading="lazy" draggable="false">`;mod.append(b)});setEl.append(mod)});filmTrack.append(setEl)}}
@@ -105,9 +105,9 @@ $('#galleryOpen')?.addEventListener('click',openGallery);$('#galleryClose')?.add
 document.addEventListener('click',e=>{const b=e.target.closest?.('.js-work');if(b?.dataset.src)showLightbox(b.dataset.src)});galleryOverlay?.addEventListener('click',e=>{if(e.target===galleryOverlay)closeGallery()});lightbox?.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox()});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(lightbox?.hidden===false)closeLightbox();else if(galleryOverlay?.hidden===false)closeGallery()}if(lightbox?.hidden===false&&e.key==='ArrowLeft')stepLightbox(-1);if(lightbox?.hidden===false&&e.key==='ArrowRight')stepLightbox(1)});
 
-// Reviews — same endless moving rail idea as claytone-current, draggable on desktop/mobile.
+// Endless, draggable review rail.
 const reviewTrack=$('#reviewTrack'),reviewViewport=$('#reviewViewport');
-if(reviewTrack){for(let set=0;set<5;set++){const group=document.createElement('div');group.className='mct-review-set';group.setAttribute('aria-hidden',set===2?'false':'true');reviews.forEach(r=>{const a=document.createElement('a');a.className='mct-review-card';a.href=BOOKING;a.target='_blank';a.rel='noopener noreferrer';a.innerHTML=`<span>★★★★★</span><blockquote>«${r.text}»</blockquote><small>${r.name} · ${r.meta} · Dikidi</small><i>Записаться →</i>`;group.append(a)});reviewTrack.append(group)}}
+if(reviewTrack){for(let set=0;set<5;set++){const group=document.createElement('div');group.className='mct-review-set';group.setAttribute('aria-hidden',set===2?'false':'true');reviews.forEach(r=>{const a=document.createElement('a');a.className='mct-review-card';a.href=BOOKING;a.target='_blank';a.rel='noopener noreferrer';a.innerHTML=`<span>★★★★★</span><blockquote>«${r.text}»</blockquote><small>${r.name} · Dikidi</small><i>Записаться →</i>`;group.append(a)});reviewTrack.append(group)}}
 let reviewOffset=0,reviewPaused=false,reviewSetWidth=0,reviewPointer=null,reviewStart=0,reviewBase=0,lastReview=performance.now();
 function normalizeReview(){if(!reviewSetWidth)return;while(reviewOffset<=-reviewSetWidth*3)reviewOffset+=reviewSetWidth*2;while(reviewOffset>-reviewSetWidth)reviewOffset-=reviewSetWidth*2}
 function measureReviews(){const first=reviewTrack?.querySelector('.mct-review-set');if(first){reviewSetWidth=first.getBoundingClientRect().width;if(!reviewOffset)reviewOffset=-reviewSetWidth*2}}
