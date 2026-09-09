@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#171512">
+  <title>Юлия Ролева — колорист и мастер по волосам</title>
+  <meta name="description" content="Стрижки, окрашивание, блонд, уход и укладки. Юлия Ролева, Балашиха, Space Beauty. Стаж более 10 лет.">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top"><span>ЮР</span><small>Юлия Ролева</small></a>
+    <nav>
+      <a href="#works">Работы</a><a href="#prices">Услуги</a><a href="#about">О мастере</a><a href="#reviews">Отзывы</a>
+    </nav>
+    <a class="nav-book" href="https://dikidi.net/2144174" target="_blank" rel="noreferrer">Записаться</a>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Юлия Ролева · Балашиха · Space Beauty</p>
+        <h1><span>Волосы,</span><em>которые хочется</em><span>носить каждый день</span></h1>
+        <p class="lead">Стрижки, окрашивание и уход с вниманием к состоянию волос, оттенку и вашему образу. Стаж работы — более 10 лет.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://dikidi.net/2144174" target="_blank" rel="noreferrer">Выбрать время <span>↗</span></a>
+          <a class="text-link" href="#works">Посмотреть работы ↓</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="./00_blurred_girl_first.webp" alt="Юлия Ролева" onerror="this.closest('.hero-photo').classList.add('image-missing');this.remove()">
+        <div class="hero-badge"><strong>10+</strong><span>лет опыта</span></div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div>СТРИЖКИ · ОКРАШИВАНИЕ · BLOND · УХОД · УКЛАДКА · СТРИЖКИ · ОКРАШИВАНИЕ · BLOND · УХОД · УКЛАДКА ·</div></div>
+
+    <section class="works section" id="works">
+      <div class="section-head">
+        <div><p class="eyebrow dark">Портфолио</p><h2>Работы <em>Юлии</em></h2></div>
+        <p>Живые результаты окрашиваний, стрижек и ухода за волосами.</p>
+      </div>
+      <div class="works-grid" id="worksGrid"></div>
+    </section>
+
+    <section class="promo">
+      <div class="promo-image"><img src="./00_blurred_girl_first.webp" alt="" onerror="this.remove()"></div>
+      <div class="promo-copy">
+        <p class="eyebrow">Первое знакомство</p>
+        <h2>−10% на первое посещение</h2>
+        <p>Выберите удобное время в Dikidi. Скидка действует на первое посещение у Юлии.</p>
+        <a class="button light" href="https://dikidi.net/2144174" target="_blank" rel="noreferrer">Записаться <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="prices section" id="prices">
+      <div class="price-title">
+        <p class="eyebrow dark">Услуги и цены</p>
+        <h2>Выберите <em>свою услугу</em></h2>
+        <p>Стоимость сложных окрашиваний зависит от длины, густоты и исходного состояния волос.</p>
+      </div>
+      <div class="service-tabs" role="tablist" aria-label="Категории услуг">
+        <button class="active" data-tab="cut">Стрижки</button>
+        <button data-tab="color">Окрашивание</button>
+        <button data-tab="care">Уход</button>
+        <button data-tab="style">Укладка</button>
+      </div>
+      <div id="services"></div>
+      <a class="button outline" href="https://dikidi.net/2144174" target="_blank" rel="noreferrer">Посмотреть время в Dikidi <span>↗</span></a>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-photo"><img src="./00_blurred_girl_first.webp" alt="Юлия Ролева" onerror="this.remove()"></div>
+      <div class="about-copy">
+        <p class="eyebrow dark">О мастере</p>
+        <h2>Юлия <em>Ролева</em></h2>
+        <p>Мастер по волосам с опытом более 10 лет. В работе — аккуратность, понятная консультация и решение, которое подходит именно вашим волосам: от формы стрижки и натурального тона до сложного блонда и восстановления.</p>
+        <ul>
+          <li>Более 10 лет опыта</li>
+          <li>Стрижки и окрашивание</li>
+          <li>Blond и сложные техники</li>
+          <li>Уход и реконструкция волос</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="reviews section" id="reviews">
+      <div class="section-head review-head">
+        <div><p class="eyebrow dark">Отзывы клиентов</p><h2>Говорят <em>после</em></h2></div>
+        <div class="score"><strong>5.0</strong><span>★★★★★<small>отзывы клиентов</small></span></div>
+      </div>
+      <div class="review-grid" id="reviewGrid"></div>
+    </section>
+
+    <section class="booking">
+      <p class="eyebrow">Запись онлайн</p>
+      <h2>Готовы к <em>новому образу?</em></h2>
+      <p>Выберите услугу и удобное время в Dikidi.</p>
+      <div class="booking-actions">
+        <a class="button light" href="https://dikidi.net/2144174" target="_blank" rel="noreferrer">Записаться в Dikidi <span>↗</span></a>
+        <a class="button ghost" href="https://wa.me/79248395829" target="_blank" rel="noreferrer">WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand"><strong>ЮР</strong><span>Юлия Ролева</span></div>
+    <div><span>Адрес</span><p>г. Балашиха,<br>ул. Твардовского, 42<br>салон Space Beauty</p></div>
+    <div><span>График</span><p>Пн–Сб<br>10:00–20:00</p></div>
+    <div><span>Связь</span><p><a href="https://wa.me/79248395829" target="_blank" rel="noreferrer">WhatsApp</a><br><a href="https://t.me/roleva25" target="_blank" rel="noreferrer">Telegram</a></p></div>
+  </footer>
+
+  <a class="floating-book" href="https://dikidi.net/2144174" target="_blank" rel="noreferrer"><span class="dot"></span><span><small>Онлайн-запись</small><strong>Выбрать время</strong></span><b>↗</b></a>
+  <script src="./app.js"></script>
+</body>
+</html>
