@@ -1,7 +1,9 @@
 import fs from "node:fs";
 
 const componentPath = "app/mobile-claytone.tsx";
+const cssPath = "app/globals.css";
 let source = fs.readFileSync(componentPath, "utf8");
+let css = fs.readFileSync(cssPath, "utf8");
 
 function replaceAllRequired(from, to, label = from) {
   if (!source.includes(from)) throw new Error(`Yulia patch marker not found: ${label}`);
@@ -23,6 +25,10 @@ source = source.replace(
 );
 source = source.replace(
   "Юлия Ролева, мастер маникюра и педикюра Юлия Ролева",
+  "Юлия Ролева, мастер по волосам",
+);
+source = source.replace(
+  "Юлия Ролева, мастер по волосам Юлия Ролева",
   "Юлия Ролева, мастер по волосам",
 );
 source = source.replace(
@@ -50,5 +56,16 @@ source = source.replace(
   'aria-label="О визите к Юлии Ролевой"',
 );
 
+css += `
+
+/* Yulia-specific exception: no nail palette on mobile. */
+@media (max-width: 767px) {
+  .mct-palette-stage {
+    display: none !important;
+  }
+}
+`;
+
 fs.writeFileSync(componentPath, source, "utf8");
+fs.writeFileSync(cssPath, css, "utf8");
 console.log("Yulia Roleva content labels applied on top of the Tahmina template.");
