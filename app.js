@@ -56,7 +56,7 @@ const REVIEWS=[
 ["Анастасия","Юлия, как всегда на высоте! Стрижка и окраска очень классные! Я в восторге! Спасибо огромное!"],
 ["Анна","Если вы переживаете за ваши волосы — вам к этому мастеру. После работы волосы только скажут спасибо."]
 ];
-const worksCandidates=["00_blurred_girl_first.webp","01.webp","02.webp","03.webp","04.webp","05.webp","06.webp","07.webp","08.webp","09.webp","10.webp","11.webp","12.webp","1.webp","2.webp","3.webp","4.webp","5.webp","6.webp","7.webp","8.webp","9.webp"];
+const worksCandidates=["00_blurred_girl_first.webp","IMG_2946.webp","IMG_2947.webp","IMG_2948.webp","IMG_2949.webp","IMG_2950.webp","IMG_2951.webp","IMG_2952.webp","IMG_2953.webp","IMG_2954.webp","IMG_2955.webp","222e5ba9-b172-55a2-88f9-ee7b1c3a758a.webp","2f7c8fdb-b885-57c3-b59b-8b64612a43c7.webp","63637af1-c048-5eeb-a207-55d6e5bb7d89.webp","a937da8a-7189-5a7d-9c34-edce2654341a.webp","c0227806-1078-5a6c-ab05-5a9fffa2c998.webp"];
 const grid=document.getElementById("worksGrid");
 worksCandidates.forEach((src,i)=>{const d=document.createElement("div");d.className="work";const img=document.createElement("img");img.src="./"+src;img.alt=i===0?"Портфолио Юлии Ролевой — работа 1":"Работа Юлии Ролевой";img.loading=i<3?"eager":"lazy";img.onerror=()=>d.remove();const n=document.createElement("span");n.textContent=String(i+1).padStart(2,"0");d.append(img,n);grid.append(d)});
 const services=document.getElementById("services");
