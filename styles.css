@@ -43,6 +43,12 @@ html,body{background:var(--y-cream)}
 .mct-lightbox-figure figcaption{display:flex;justify-content:space-between;gap:15px;color:rgba(255,255,255,.7);font:600 9px/1.2 "Manrope",Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase}
 
 @media(max-width:767px){
+  /* The static build keeps both modal elements in the DOM while hidden.
+     Reset claytone-current's broad :has() lock, then lock only an open modal. */
+  body:has(.mct-gallery-overlay),
+  body:has(.mct-lightbox){overflow-x:hidden!important;overflow-y:visible!important;touch-action:pan-y!important}
+  body:has(.mct-gallery-overlay:not([hidden])),
+  body:has(.mct-lightbox:not([hidden])){overflow:hidden!important;touch-action:none!important}
   .yulia-site .mct-hero{height:auto!important;min-height:100svh!important;overflow:hidden!important}
   .yulia-site .mct-hero>.mct-shell{grid-template-rows:auto auto minmax(300px,42svh) auto!important;min-height:100svh!important;height:auto!important}
   .yulia-site .mct-hero-content{padding-top:12px!important}
