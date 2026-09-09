@@ -1,0 +1,158 @@
+name: Deploy Yulia Roleva TANEM site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Yulia repository
+        uses: actions/checkout@v4
+        with:
+          path: customer
+
+      - name: Checkout pinned TANEM template
+        uses: actions/checkout@v4
+        with:
+          repository: ichAEY/claytone-current
+          ref: ce1bd42b44e76e1851af9e069c4cbcf06fc8eac2
+          path: template
+
+      - name: Checkout exact Tahmina refinements
+        uses: actions/checkout@v4
+        with:
+          repository: ichAEY/Tahmina-tanem
+          ref: 27e1f277b6071ca455ba2b1d3a475c6e5d7b7321
+          path: tahmina-template
+
+      - name: Prepare Tahmina visual refinements for Yulia data
+        run: |
+          cp tahmina-template/patch-tahmina.mjs customer/patch-tahmina.mjs
+          cp tahmina-template/final-refinements.mjs customer/final-refinements.mjs
+          cp tahmina-template/last-services-polish.mjs customer/last-services-polish.mjs
+
+      - name: Apply Yulia content and photos
+        run: |
+          cp customer/site-data.mjs template/site-data.mjs
+          mkdir -p template/public/assets/yulia/portfolio
+          cp customer/IMG_2955.webp template/public/assets/yulia/logo.webp
+          cp customer/IMG_2962.webp template/public/assets/yulia/master.webp
+          cp customer/IMG_2963.webp template/public/assets/yulia/about.webp
+          for file in \
+            00_blurred_girl_first.webp \
+            222e5ba9-b172-55a2-88f9-ee7b1c3a758a.webp \
+            2f7c8fdb-b885-57c3-b59b-8b64612a43c7.webp \
+            63637af1-c048-5eeb-a207-55d6e5bb7d89.webp \
+            a937da8a-7189-5a7d-9c34-edce2654341a.webp \
+            c0227806-1078-5a6c-ab05-5a9fffa2c998.webp \
+            IMG_2946.webp IMG_2947.webp IMG_2948.webp IMG_2949.webp IMG_2950.webp \
+            IMG_2951.webp IMG_2952.webp IMG_2953.webp IMG_2954.webp; do
+            cp "customer/$file" "template/public/assets/yulia/portfolio/$file"
+          done
+          printf '%s\n' '// Booking opens the external Dikidi page.' > template/public/noop.js
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: template/package-lock.json
+
+      - name: Install dependencies
+        working-directory: template
+        run: npm ci
+
+      - name: Apply Yulia master data
+        working-directory: template
+        run: node scripts/generate-site.mjs
+
+      - name: Apply exact Tahmina structural refinements
+        working-directory: template
+        run: node ../customer/patch-tahmina.mjs
+
+      - name: Apply exact Tahmina final polish
+        working-directory: template
+        run: node ../customer/final-refinements.mjs
+
+      - name: Apply exact Tahmina services polish
+        working-directory: template
+        run: node ../customer/last-services-polish.mjs
+
+      - name: Replace Tahmina labels with Yulia hair content
+        working-directory: template
+        run: node ../customer/patch-yulia.mjs
+
+      - name: Configure Pages for Yulia repository path
+        working-directory: template
+        run: |
+          cat > next.config.ts <<'EOF'
+          import type { NextConfig } from "next";
+
+          const nextConfig: NextConfig = {
+            output: "export",
+            trailingSlash: true,
+            basePath: "/Yulia-Roleva",
+            images: { unoptimized: true },
+          };
+
+          export default nextConfig;
+          EOF
+
+      - name: Remove old exported Next assets
+        working-directory: template
+        run: rm -rf public/_next
+
+      - name: Ignore hosting-only TypeScript files for Pages build
+        working-directory: template
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = 'tsconfig.json';
+          const config = JSON.parse(fs.readFileSync(path, 'utf8'));
+          config.exclude = [
+            ...(config.exclude || []),
+            'db/**',
+            'worker/**',
+            'examples/**',
+            'build/**',
+            'drizzle/**',
+            'drizzle.config.ts',
+            'vite.config.ts'
+          ];
+          fs.writeFileSync(path, JSON.stringify(config, null, 2) + '\n');
+          NODE
+
+      - name: Build exact Tahmina template with Yulia data
+        working-directory: template
+        run: npx next build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: template/out
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
