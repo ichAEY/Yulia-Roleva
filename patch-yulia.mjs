@@ -60,6 +60,30 @@ source = source.replace(
   "Настоящие отзывы клиентов Юлии Ролевой.",
 );
 source = source.replace(
+  '<small>{review.author} · Яндекс Карты</small>',
+  '<small>{review.author} · Dikidi</small>',
+);
+source = source.replace(
+  "Выберите свободное время в календаре. Если нужно уточнить услугу, дизайн или длительность процедуры, напишите Юлии Ролевой напрямую.",
+  "Выберите свободное время в Dikidi. Если нужно уточнить услугу или подобрать процедуру, напишите Юлии Ролевой напрямую.",
+);
+source = source.replace(
+  '<div className="mct-final-contact-grid" aria-label="Все способы связи с ClayTone">',
+  '<div className="mct-final-contact-grid" aria-label="Способы связи с Юлией Ролевой">',
+);
+source = source.replace(
+  '<a className="mct-final-secondary" href={channelTelegramUrl} target="_blank" rel="noopener noreferrer">',
+  '<a className="mct-final-secondary" href={bookingUrl} target="_blank" rel="noopener noreferrer">',
+);
+source = source.replace(
+  '<span className="mct-contact-copy"><strong>Telegram-канал</strong><small>Работы и новости</small></span>',
+  '<span className="mct-contact-copy"><strong>Dikidi</strong><small>Онлайн-запись</small></span>',
+);
+source = source.replace(
+  '<span className="mct-contact-copy"><strong>Яндекс Карты</strong><small>Отзывы и маршрут</small></span>',
+  '<span className="mct-contact-copy"><strong>Яндекс Карты</strong><small>Адрес и маршрут</small></span>',
+);
+source = source.replace(
   'aria-label="Удобства для визита в Юлия Ролева"',
   'aria-label="О визите к Юлии Ролевой"',
 );
