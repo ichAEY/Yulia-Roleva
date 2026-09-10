@@ -49,8 +49,8 @@ css += `
 /* Yulia v6 — uploaded identity assets + VK contact. */
 .mct-brand-yulia-image {
   display: inline-flex !important;
-  width: 83.5px !important;
-  height: 45px !important;
+  width: 89.3px !important;
+  height: 48.2px !important;
   align-items: center !important;
   justify-content: flex-start !important;
   overflow: visible !important;
@@ -59,10 +59,10 @@ css += `
 
 .mct-brand-yulia-image img {
   display: block !important;
-  width: 83.5px !important;
-  height: 45px !important;
-  max-width: 83.5px !important;
-  max-height: 45px !important;
+  width: 89.3px !important;
+  height: 48.2px !important;
+  max-width: 89.3px !important;
+  max-height: 48.2px !important;
   object-fit: contain !important;
   object-position: left center !important;
 }
