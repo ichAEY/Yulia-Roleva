@@ -53,27 +53,31 @@ css += `
     user-select: none !important;
     -webkit-user-drag: none !important;
 
-    /* Strong feathering on all four sides so the rectangular image boundary disappears. */
+    /* Wide feathering with fully transparent outer pixels so no rectangular edge can remain visible. */
     -webkit-mask-image: radial-gradient(
-      ellipse 67% 72% at 50% 50%,
+      ellipse 52% 52% at 50% 50%,
       #000 0%,
-      #000 52%,
-      rgba(0,0,0,.98) 57%,
-      rgba(0,0,0,.88) 64%,
-      rgba(0,0,0,.68) 72%,
-      rgba(0,0,0,.40) 82%,
-      rgba(0,0,0,.14) 92%,
+      #000 56%,
+      rgba(0,0,0,.98) 62%,
+      rgba(0,0,0,.86) 68%,
+      rgba(0,0,0,.64) 75%,
+      rgba(0,0,0,.38) 82%,
+      rgba(0,0,0,.16) 88%,
+      rgba(0,0,0,.05) 92%,
+      transparent 96%,
       transparent 100%
     ) !important;
     mask-image: radial-gradient(
-      ellipse 67% 72% at 50% 50%,
+      ellipse 52% 52% at 50% 50%,
       #000 0%,
-      #000 52%,
-      rgba(0,0,0,.98) 57%,
-      rgba(0,0,0,.88) 64%,
-      rgba(0,0,0,.68) 72%,
-      rgba(0,0,0,.40) 82%,
-      rgba(0,0,0,.14) 92%,
+      #000 56%,
+      rgba(0,0,0,.98) 62%,
+      rgba(0,0,0,.86) 68%,
+      rgba(0,0,0,.64) 75%,
+      rgba(0,0,0,.38) 82%,
+      rgba(0,0,0,.16) 88%,
+      rgba(0,0,0,.05) 92%,
+      transparent 96%,
       transparent 100%
     ) !important;
     -webkit-mask-repeat: no-repeat !important;
