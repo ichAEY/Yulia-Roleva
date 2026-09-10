@@ -43,8 +43,8 @@ css += `
 /* Yulia v6 — uploaded identity assets + VK contact. */
 .mct-brand-yulia-image {
   display: inline-flex !important;
-  width: 50px !important;
-  height: 32px !important;
+  width: 78px !important;
+  height: 42px !important;
   align-items: center !important;
   justify-content: flex-start !important;
   overflow: visible !important;
@@ -53,10 +53,10 @@ css += `
 
 .mct-brand-yulia-image img {
   display: block !important;
-  width: 50px !important;
-  height: 32px !important;
-  max-width: 50px !important;
-  max-height: 32px !important;
+  width: 78px !important;
+  height: 42px !important;
+  max-width: 78px !important;
+  max-height: 42px !important;
   object-fit: contain !important;
   object-position: left center !important;
 }
@@ -66,6 +66,7 @@ css += `
   place-items: center !important;
   width: min(78vw, 360px) !important;
   min-height: 120px !important;
+  transform: none !important;
 }
 
 .mct-intro-logo-yulia {
@@ -76,9 +77,36 @@ css += `
   max-height: 180px !important;
   object-fit: contain !important;
   object-position: center !important;
-  animation: mctIntroWord 1.55s cubic-bezier(.22, .78, .25, 1) both !important;
+  animation: mctIntroLogoYulia 1.58s cubic-bezier(.16, .84, .32, 1) both !important;
   user-select: none !important;
   -webkit-user-drag: none !important;
+}
+
+@keyframes mctIntroLogoYulia {
+  0% {
+    opacity: 0;
+    transform: translateY(7px) scale(.975);
+    filter: blur(1.5px);
+  }
+  42% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  78% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: .98;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.mct-intro {
+  animation-timing-function: ease-in-out !important;
 }
 
 .mct-final-secondary.is-vk .mct-contact-icon {
