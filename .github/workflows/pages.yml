@@ -46,6 +46,7 @@ jobs:
       - name: Apply Yulia content, photos and hero image
         run: |
           cp customer/site-data.mjs template/site-data.mjs
+          sed -i 's#/Yulia-Roleva/#/#g' template/site-data.mjs
           mkdir -p template/public/assets/yulia/portfolio template/public/assets/yulia/tools
           cp customer/IMG_2955.webp template/public/assets/yulia/logo.webp
           cp customer/IMG_2962.webp template/public/assets/yulia/master.webp
@@ -109,13 +110,17 @@ jobs:
         working-directory: template
         run: node ../customer/refine-yulia-v3.mjs
 
-      - name: Apply final approved Yulia layout
+      - name: Apply final approved Yulia mobile layout
         working-directory: template
         run: node ../customer/refine-yulia-v4.mjs
 
-      - name: Use uploaded hero image and final contact icon
+      - name: Use uploaded mobile hero image and final contact icon
         working-directory: template
         run: node ../customer/refine-yulia-v5.mjs
+
+      - name: Apply proper Yulia desktop layout
+        working-directory: template
+        run: node ../customer/refine-yulia-desktop.mjs
 
       - name: Configure Pages for custom domain root
         working-directory: template
@@ -156,7 +161,7 @@ jobs:
           fs.writeFileSync(path, JSON.stringify(config, null, 2) + '\n');
           NODE
 
-      - name: Build exact Tahmina template with Yulia data
+      - name: Build exact Tahmina structure with Yulia data
         working-directory: template
         run: npx next build
 
@@ -166,8 +171,14 @@ jobs:
           test -s out/index.html
           test -d out/_next
           grep -q "Юлия Ролева" out/index.html
+          test -s out/assets/yulia/about.webp
           test -s out/assets/yulia/tools/hero.png
+          test -s out/assets/yulia/portfolio/00_blurred_girl_first.webp
           if grep -R -q '/Yulia-Roleva/_next' out/index.html out/_next 2>/dev/null; then
+            echo 'Old GitHub project Next path still present' >&2
+            exit 1
+          fi
+          if grep -R -q '/Yulia-Roleva/assets' out/index.html out/_next 2>/dev/null; then
             echo 'Old GitHub project asset path still present' >&2
             exit 1
           fi
