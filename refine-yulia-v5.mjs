@@ -5,9 +5,12 @@ let css = fs.readFileSync(cssPath, "utf8");
 
 /*
   Yulia v5 — hero tools only.
-  Keep every existing hero element unchanged and only compose the two supplied
-  transparent PNGs like the approved reference: comb behind, scissors in front,
-  both large and overlapping in the centre of the visual area.
+  Keep every existing hero element unchanged. The supplied PNGs already have
+  the correct natural diagonal direction, so do not rotate them into a flat
+  horizontal composition. Match the approved reference: comb behind, running
+  lower-left -> upper-right; scissors in front, blades upper-left and handles
+  lower-right, with soft contact/ambient shadows so both objects feel placed on
+  the warm surface instead of pasted into the layout.
 */
 css += `
 
@@ -34,27 +37,33 @@ css += `
     transform-origin: 50% 50% !important;
     user-select: none !important;
     -webkit-user-drag: none !important;
-    filter: drop-shadow(0 12px 20px rgba(49, 40, 36, .11)) !important;
+    /* tight contact shadow + softer ambient shadow, like the supplied reference */
+    filter:
+      drop-shadow(0 5px 4px rgba(45, 35, 30, .20))
+      drop-shadow(0 15px 18px rgba(45, 35, 30, .11)) !important;
   }
 
-  /* Reference composition: comb runs bottom-left → top-right and sits behind. */
+  /* The source comb already points lower-left -> upper-right. Keep that natural angle. */
   .mct-yulia-comb {
     z-index: 1 !important;
-    left: 50% !important;
-    top: 48% !important;
-    width: min(78vw, 315px) !important;
-    height: min(78vw, 315px) !important;
-    transform: translate(-48%, -50%) rotate(42deg) scale(1.02) !important;
+    left: 52% !important;
+    top: 49% !important;
+    width: min(88vw, 345px) !important;
+    height: min(88vw, 345px) !important;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1.04) !important;
   }
 
-  /* Scissors are the dominant foreground object, crossing the comb like the reference. */
+  /* Scissors cross the comb: blades upper-left, handles lower-right, as in the reference. */
   .mct-yulia-scissors {
     z-index: 2 !important;
-    left: 50% !important;
-    top: 56% !important;
-    width: min(88vw, 355px) !important;
-    height: min(88vw, 355px) !important;
-    transform: translate(-52%, -52%) rotate(-42deg) scale(1.03) !important;
+    left: 49% !important;
+    top: 52% !important;
+    width: min(76vw, 300px) !important;
+    height: min(76vw, 300px) !important;
+    transform: translate(-50%, -50%) rotate(-8deg) scale(1.02) !important;
+    filter:
+      drop-shadow(0 4px 3px rgba(45, 35, 30, .24))
+      drop-shadow(0 13px 17px rgba(45, 35, 30, .12)) !important;
   }
 }
 
@@ -64,4 +73,4 @@ css += `
 `;
 
 fs.writeFileSync(cssPath, css);
-console.log("Applied Yulia v5 hero tools composition only");
+console.log("Applied corrected Yulia hero tools composition and realistic shadows");
