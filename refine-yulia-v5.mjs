@@ -5,7 +5,7 @@ const cssPath = "app/globals.css";
 let source = fs.readFileSync(componentPath, "utf8");
 let css = fs.readFileSync(cssPath, "utf8");
 
-/* Yulia v5 — use the client's uploaded finished hero image as one image. */
+/* Yulia v8 — use the client's uploaded finished hero image as one image. */
 
 source = source.replace(
   /<div className="mct-yulia-tools" aria-hidden="true">[\s\S]*?<\/div>/,
@@ -20,20 +20,19 @@ source = source.replace(
 
 css += `
 
-/* Yulia v7 — preserve the new hero photo and remove only the visible background seam. */
+/* Yulia v8 — no blending tricks: full photo, hero background matched to the photo. */
 @media (max-width: 767px) {
+  .mct-hero,
+  .mct-hero .mct-shell,
+  .mct-hero-visual {
+    background: #f9f6ef !important;
+    background-image: none !important;
+  }
+
   .mct-hero-visual {
     position: relative !important;
     overflow: hidden !important;
     isolation: isolate !important;
-    background: linear-gradient(
-      to bottom,
-      #f7f4ed 0%,
-      #f4f1ea 12%,
-      #efebe4 28%,
-      #ede9e2 48%,
-      #e9e5de 100%
-    ) !important;
   }
 
   .mct-yulia-tools {
@@ -46,41 +45,16 @@ css += `
     overflow: hidden !important;
     pointer-events: none !important;
     isolation: isolate !important;
+    background: transparent !important;
   }
 
-  /* A restrained blurred copy carries the photo's real cream tones beyond its lower/side edges. */
-  .mct-yulia-tools::before {
-    content: "" !important;
-    position: absolute !important;
-    z-index: 0 !important;
-    inset: 10% -10% -9% !important;
-    background: url("/Yulia-Roleva/assets/yulia/tools/hero.png") center 68% / cover no-repeat !important;
-    filter: blur(30px) saturate(.96) !important;
-    opacity: .24 !important;
-    transform: scale(1.10) !important;
-    transform-origin: center bottom !important;
-    pointer-events: none !important;
-  }
-
-  /* Short top veil: matches the page background first, then disappears before the tools begin. */
+  .mct-yulia-tools::before,
   .mct-yulia-tools::after {
-    content: "" !important;
-    position: absolute !important;
-    z-index: 2 !important;
-    top: -1px !important;
-    left: -4% !important;
-    right: -4% !important;
-    height: 82px !important;
-    background: linear-gradient(
-      to bottom,
-      #f7f4ed 0%,
-      rgba(247,244,237,.98) 16%,
-      rgba(246,243,236,.90) 34%,
-      rgba(243,240,233,.66) 55%,
-      rgba(240,237,230,.30) 76%,
-      rgba(238,235,228,0) 100%
-    ) !important;
-    pointer-events: none !important;
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    filter: none !important;
+    opacity: 0 !important;
   }
 
   .mct-yulia-tool,
@@ -101,32 +75,12 @@ css += `
     transform: translateY(22px) !important;
     user-select: none !important;
     -webkit-user-drag: none !important;
-
-    /* No fade at the top: keep the photo sharp. Only the very bottom edge softens. */
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 92%,
-      rgba(0,0,0,.98) 95%,
-      rgba(0,0,0,.82) 97.5%,
-      rgba(0,0,0,.42) 99%,
-      transparent 100%
-    ) !important;
-    mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 92%,
-      rgba(0,0,0,.98) 95%,
-      rgba(0,0,0,.82) 97.5%,
-      rgba(0,0,0,.42) 99%,
-      transparent 100%
-    ) !important;
-    -webkit-mask-repeat: no-repeat !important;
-    mask-repeat: no-repeat !important;
-    -webkit-mask-position: center !important;
-    mask-position: center !important;
-    -webkit-mask-size: 100% 100% !important;
-    mask-size: 100% 100% !important;
+    filter: none !important;
+    opacity: 1 !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    -webkit-mask: none !important;
+    mask: none !important;
   }
 
   .mct-final-secondary.is-whatsapp .mct-contact-icon {
@@ -155,4 +109,4 @@ css += `
 
 fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Applied seam-free Yulia hero background while preserving photo sharpness");
+console.log("Applied full Yulia hero photo with a single matching hero background colour");
