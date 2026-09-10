@@ -28,15 +28,34 @@ source = source.replace(
   '...manicure.map((service, index) => ({ ...service, sectionLabel: index === 0 ? "Стрижки" : undefined, sectionKey: "manicure" })),',
 );
 
-/* Open on All and never truncate the service list. Every confirmed service must be visible. */
+/* Open on All. Keep all services in the DOM and collapse only the "Все" tab via responsive CSS.
+   This avoids viewport-dependent React rendering and keeps desktop stable. */
 source = source.replace(
   'const [category, setCategory] = useState<"all" | "manicure" | "pedicure" | "podology" | "training">("manicure");',
   'const [category, setCategory] = useState<"all" | "manicure" | "pedicure" | "podology" | "training">("all");',
 );
 replaceRegexRequired(
   /  const isCollapsibleCategory = category === "manicure" \|\| category === "all";\n  const visibleServices = useMemo\(\n    \(\) => isCollapsibleCategory && !expanded \? services\.slice\(0, 5\) : services,\n    \[expanded, isCollapsibleCategory, services\],\n  \);/,
-  '  const isCollapsibleCategory = false;\n  const visibleServices = useMemo(() => services, [services]);',
-  "show all services without truncation",
+  '  const isCollapsibleCategory = category === "all";\n  const visibleServices = useMemo(() => services, [services]);',
+  "responsive all-services collapse",
+);
+
+replaceRequired(
+  '          <div className="mct-service-list">',
+  '          <div className={\`mct-service-list\${isCollapsibleCategory && !expanded ? " is-collapsed" : " is-expanded"}\`}>',
+  "service list expansion state",
+);
+
+replaceRequired(
+  'isCollapsibleCategory && services.length > 5',
+  'isCollapsibleCategory && services.length > 6',
+  "all-services button threshold",
+);
+
+replaceRequired(
+  '{expanded ? "Свернуть услуги" : \`Показать ещё \${services.length - 5} услуг\`}',
+  '{expanded ? "Свернуть услуги" : "Открыть все услуги"}',
+  "all-services button label",
 );
 
 /* Rebuild the final price renderer around the current STLuxe hierarchy:
@@ -275,7 +294,25 @@ css += `
     font: 600 16.5px/1 "Cormorant Garamond", Georgia, serif !important;
     letter-spacing: 0 !important;
   }
-  .mct-more-services { display: none !important; }
+  .mct-service-list.is-collapsed > .mct-service-row.yulia-price-row:nth-child(n + 7) {
+    display: none !important;
+  }
+
+  .mct-more-services {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 46px !important;
+    margin: 16px 0 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    border: 1px solid rgba(87,68,61,.14) !important;
+    border-radius: 999px !important;
+    background: #f0e7e1 !important;
+    color: #3f3936 !important;
+    font: 600 10px/1 "Manrope", Arial, sans-serif !important;
+    cursor: pointer !important;
+  }
 
   /* WhatsApp is a clean monochrome line icon in the same visual language as the site. */
   .mct-final-secondary.is-whatsapp .mct-contact-icon {
@@ -353,4 +390,4 @@ css += `
 
 fs.writeFileSync(componentPath, source, "utf8");
 fs.writeFileSync(cssPath, css, "utf8");
-console.log(`Yulia v4 applied: ${serviceCount} services visible, STLuxe-aligned price edge, hero tools and current TANEM credit.`);
+console.log(`Yulia v4 applied: ${serviceCount} services preserved; responsive All-tab collapse enabled.`);
