@@ -98,6 +98,10 @@ jobs:
         working-directory: template
         run: node ../customer/post-yulia.mjs
 
+      - name: Apply Yulia v2 refinements
+        working-directory: template
+        run: node ../customer/refine-yulia-v2.mjs
+
       - name: Configure Pages for Yulia repository path
         working-directory: template
         run: |
