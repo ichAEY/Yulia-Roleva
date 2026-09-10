@@ -112,6 +112,10 @@ jobs:
         working-directory: template
         run: node ../customer/refine-yulia-v4.mjs
 
+      - name: Match hero tools to approved reference
+        working-directory: template
+        run: node ../customer/refine-yulia-v5.mjs
+
       - name: Configure Pages for Yulia repository path
         working-directory: template
         run: |
