@@ -11,11 +11,11 @@ function replaceRegexRequired(pattern, replacement, label) {
   source = source.replace(pattern, replacement);
 }
 
-/* Desktop hero: use Julia's second portrait, not the scissors/comb artwork.
+/* Desktop hero: use Julia's second supplied portrait (IMG_2962 / master.webp).
    Mobile hero stays untouched because the desktop portrait is hidden there. */
 replaceRegexRequired(
   /(<figure className="dct-hero-portrait">\s*<img src=")[^"]+(" alt="[^"]*" \/>)/,
-  '$1/assets/yulia/about.webp$2',
+  '$1/assets/yulia/master.webp$2',
   "desktop hero portrait",
 );
 
@@ -46,13 +46,13 @@ css += `
 
   .dct-hero-portrait {
     position: absolute !important;
-    inset: 24px 0 28px !important;
+    inset: 0 !important;
     display: block !important;
     overflow: hidden !important;
-    border: 1px solid rgba(91,69,60,.12) !important;
-    border-radius: 28px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
     background: #f3eee8 !important;
-    box-shadow: 0 28px 70px rgba(81,58,49,.12) !important;
+    box-shadow: none !important;
   }
 
   .dct-hero-portrait::after {
@@ -64,13 +64,32 @@ css += `
     display: block !important;
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important;
-    object-position: center bottom !important;
+    object-fit: cover !important;
+    object-position: center 38% !important;
     filter: none !important;
   }
 
   .dct-hero-portrait figcaption {
     display: none !important;
+  }
+
+  /* HERO fine tuning requested for the desktop first screen only. */
+  .mct-hero-content h1,
+  .mct-hero-content .mct-hero-copy {
+    position: relative !important;
+    top: -22px !important;
+  }
+
+  .mct-hero-actions {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    width: 100% !important;
+    gap: 0 !important;
+    align-items: center !important;
+  }
+
+  .mct-quiet-link {
+    justify-self: center !important;
   }
 
   /* PORTFOLIO: every visible photo is a real clickable button on desktop. */
