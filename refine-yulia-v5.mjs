@@ -13,7 +13,7 @@ function replaceRequired(from, to, label) {
 /* Yulia v10 — keep the client's uploaded finished hero image as one untouched image. */
 source = source.replace(
   /<div className="mct-yulia-tools" aria-hidden="true">[\s\S]*?<\/div>/,
-  '<div className="mct-yulia-tools" aria-hidden="true"><img className="mct-yulia-hero-image" src="/Yulia-Roleva/assets/yulia/tools/hero.png" alt="" /></div>',
+  '<div className="mct-yulia-tools" aria-hidden="true"><img className="mct-yulia-hero-image" src="/assets/yulia/tools/hero.png" alt="" /></div>',
 );
 
 /* Contouring keeps every word, but uses the spare second line as a description. */
