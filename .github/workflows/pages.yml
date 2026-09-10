@@ -117,7 +117,7 @@ jobs:
         working-directory: template
         run: node ../customer/refine-yulia-v5.mjs
 
-      - name: Configure Pages for Yulia repository path
+      - name: Configure Pages for custom domain root
         working-directory: template
         run: |
           cat > next.config.ts <<'EOF'
@@ -126,7 +126,6 @@ jobs:
           const nextConfig: NextConfig = {
             output: "export",
             trailingSlash: true,
-            basePath: "/Yulia-Roleva",
             images: { unoptimized: true },
           };
 
@@ -161,25 +160,18 @@ jobs:
         working-directory: template
         run: npx next build
 
-      - name: Add custom-domain compatibility paths
-        working-directory: template
-        run: |
-          mkdir -p out/Yulia-Roleva
-          cp -a out/_next out/Yulia-Roleva/
-          cp -a out/assets out/Yulia-Roleva/
-          for file in noop.js claytone-enhancements.js android-scroll-fix.js favicon.ico favicon.png; do
-            if [ -f "out/$file" ]; then cp -a "out/$file" "out/Yulia-Roleva/$file"; fi
-          done
-
-      - name: Harden Pages output
+      - name: Harden custom-domain output
         working-directory: template
         run: |
           test -s out/index.html
           test -d out/_next
-          test -d out/Yulia-Roleva/_next
           grep -q "Юлия Ролева" out/index.html
           test -s out/assets/yulia/tools/hero.png
-          test -s out/Yulia-Roleva/assets/yulia/tools/hero.png
+          if grep -R -q '/Yulia-Roleva/_next' out/index.html out/_next 2>/dev/null; then
+            echo 'Old GitHub project asset path still present' >&2
+            exit 1
+          fi
+          printf '%s\n' 'julia.tanem.ru' > out/CNAME
           touch out/.nojekyll
           cp out/index.html out/404.html
 
