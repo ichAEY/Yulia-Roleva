@@ -6,11 +6,11 @@ let source = fs.readFileSync(componentPath, "utf8");
 let css = fs.readFileSync(cssPath, "utf8");
 
 function replaceRequired(from, to, label) {
-  if (!source.includes(from)) throw new Error(`Yulia v9 marker not found: ${label}`);
+  if (!source.includes(from)) throw new Error(`Yulia v10 marker not found: ${label}`);
   source = source.replace(from, to);
 }
 
-/* Yulia v9 — keep the client's uploaded finished hero image as one untouched image. */
+/* Yulia v10 — keep the client's uploaded finished hero image as one untouched image. */
 source = source.replace(
   /<div className="mct-yulia-tools" aria-hidden="true">[\s\S]*?<\/div>/,
   '<div className="mct-yulia-tools" aria-hidden="true"><img className="mct-yulia-hero-image" src="/Yulia-Roleva/assets/yulia/tools/hero.png" alt="" /></div>',
@@ -28,10 +28,14 @@ replaceRequired(
   "contouring description",
 );
 
-/* WhatsApp uses exactly the same message-bubble illustration as the Telegram contact tile. */
+/* WhatsApp is literally the same contact tile structure and message-bubble icon as Telegram. */
+source = source.replace(
+  '<a className="mct-final-secondary is-whatsapp"',
+  '<a className="mct-final-secondary"',
+);
 source = source.replace(
   /<svg className="mct-whatsapp-svg"[\s\S]*?<\/svg>/,
-  '<svg className="mct-whatsapp-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" /></svg>',
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" /></svg>',
 );
 replaceRequired(
   '<span className="mct-contact-copy"><strong>WhatsApp</strong><small>Написать Юлии</small></span>',
@@ -41,7 +45,7 @@ replaceRequired(
 
 css += `
 
-/* Yulia v9 — final mobile hero, price-list spacing and contact polish. */
+/* Yulia v10 — restore the approved hero from the previous version; keep service polish. */
 @media (max-width: 767px) {
   .mct-hero,
   .mct-hero .mct-shell,
@@ -56,35 +60,27 @@ css += `
     isolation: isolate !important;
   }
 
-  /* The visual row itself is the exact free space between copy and booking controls. */
+  /* Exact hero placement from the version before v9. */
   .mct-yulia-tools {
     position: absolute !important;
     z-index: 6 !important;
-    inset: 0 -3% !important;
-    display: grid !important;
-    place-items: center !important;
+    inset: 0 -3% -3% !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
     overflow: hidden !important;
     pointer-events: none !important;
     isolation: isolate !important;
     background: transparent !important;
   }
 
-  /* Only the very top background edge is softened. The scissors and comb remain untouched. */
-  .mct-yulia-tools::before {
-    content: "" !important;
-    position: absolute !important;
-    z-index: 2 !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 18px !important;
-    background: linear-gradient(to bottom, #f9f6ef 0%, rgba(249,246,239,.72) 45%, rgba(249,246,239,0) 100%) !important;
-    pointer-events: none !important;
-  }
-
+  .mct-yulia-tools::before,
   .mct-yulia-tools::after {
     display: none !important;
     content: none !important;
+    background: none !important;
+    filter: none !important;
+    opacity: 0 !important;
   }
 
   .mct-yulia-tool,
@@ -101,9 +97,9 @@ css += `
     max-width: none !important;
     height: auto !important;
     object-fit: contain !important;
-    object-position: center center !important;
-    transform: scale(0.93) !important;
-    transform-origin: center center !important;
+    object-position: center bottom !important;
+    transform: translateY(22px) scale(0.93) !important;
+    transform-origin: center bottom !important;
     user-select: none !important;
     -webkit-user-drag: none !important;
     filter: none !important;
@@ -125,39 +121,16 @@ css += `
     max-width: none !important;
   }
 
-  /* Keep the long one-price Contouring service compact without deleting any wording. */
   .yulia-contouring-detail {
     margin-top: 5px !important;
   }
 
-  /* Prices are only five percent larger than the approved v4 sizing. */
+  /* Prices stay five percent larger than the approved v4 sizing. */
   .yulia-service-price {
     font-size: 18.9px !important;
   }
   .yulia-service-variant > b {
     font-size: 17.3px !important;
-  }
-
-  /* WhatsApp copies Telegram's message-bubble icon exactly. */
-  .mct-final-secondary.is-whatsapp .mct-contact-icon {
-    display: grid !important;
-    place-items: center !important;
-    overflow: visible !important;
-  }
-  .mct-final-secondary.is-whatsapp .mct-contact-icon::before,
-  .mct-final-secondary.is-whatsapp .mct-contact-icon::after {
-    display: none !important;
-    content: none !important;
-  }
-  .mct-final-secondary.is-whatsapp .mct-contact-icon .mct-whatsapp-svg {
-    display: block !important;
-    width: 21px !important;
-    height: 21px !important;
-    fill: none !important;
-    stroke: currentColor !important;
-    stroke-width: 1.5 !important;
-    stroke-linecap: round !important;
-    stroke-linejoin: round !important;
   }
 }
 
@@ -168,4 +141,4 @@ css += `
 
 fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Applied final Yulia mobile hero, service spacing, price sizing and contact polish");
+console.log("Restored previous Yulia hero and made WhatsApp contact tile identical to Telegram");
