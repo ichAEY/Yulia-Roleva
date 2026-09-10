@@ -134,11 +134,50 @@ css += `
   }
 }
 
+/* PC version already exists in the pinned template — explicitly enable it. */
 @media (min-width: 768px) {
-  .mct-yulia-tools { display: none !important; }
+  .mct-mobile {
+    display: block !important;
+  }
+
+  .dct-desktop {
+    display: none !important;
+  }
+
+  .mct-yulia-tools {
+    position: absolute !important;
+    z-index: 6 !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    isolation: isolate !important;
+  }
+
+  .mct-yulia-tools::before,
+  .mct-yulia-tools::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .mct-yulia-hero-image {
+    display: block !important;
+    width: min(47vw, 620px) !important;
+    max-width: 96% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    -webkit-mask: none !important;
+    mask: none !important;
+  }
 }
 `;
 
 fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Restored previous Yulia hero and made WhatsApp contact tile identical to Telegram");
+console.log("Enabled existing desktop version and kept the approved mobile version unchanged");
