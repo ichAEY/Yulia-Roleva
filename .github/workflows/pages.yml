@@ -49,6 +49,8 @@ jobs:
           sed -i 's#/Yulia-Roleva/#/#g' template/site-data.mjs
           mkdir -p template/public/assets/yulia/portfolio template/public/assets/yulia/tools
           cp customer/IMG_2955.webp template/public/assets/yulia/logo.webp
+          cp customer/EF89C52A-0BBF-4294-A253-89551CECD764.png template/public/assets/yulia/intro-logo.png
+          cp customer/49D68491-5224-489E-8FF9-CD890A61D6E9.png template/public/assets/yulia/header-logo.png
           cp customer/IMG_2962.webp template/public/assets/yulia/master.webp
           cp customer/IMG_2963.webp template/public/assets/yulia/about.webp
           cp customer/0A6D15B8-18BB-4BD3-A9C7-8917F7BFCD65.png template/public/assets/yulia/tools/comb.png
@@ -62,7 +64,7 @@ jobs:
             a937da8a-7189-5a7d-9c34-edce2654341a.webp \
             c0227806-1078-5a6c-ab05-5a9fffa2c998.webp \
             IMG_2946.webp IMG_2947.webp IMG_2948.webp IMG_2949.webp IMG_2950.webp \
-            IMG_2951.webp IMG_2952.webp IMG_2953.webp IMG_2954.webp; do
+            IMG_2951.webp IMG_2952.webp IMG_2953.webp IMG_2954.webp IMG_2994.webp; do
             cp "customer/$file" "template/public/assets/yulia/portfolio/$file"
           done
           printf '%s\n' '// Booking opens the external Dikidi page.' > template/public/noop.js
@@ -122,6 +124,10 @@ jobs:
         working-directory: template
         run: node ../customer/refine-yulia-desktop.mjs
 
+      - name: Apply Yulia identity, VK and final gallery refinements
+        working-directory: template
+        run: node ../customer/refine-yulia-v6.mjs
+
       - name: Configure Pages for custom domain root
         working-directory: template
         run: |
@@ -172,8 +178,11 @@ jobs:
           test -d out/_next
           grep -q "Юлия Ролева" out/index.html
           test -s out/assets/yulia/about.webp
+          test -s out/assets/yulia/intro-logo.png
+          test -s out/assets/yulia/header-logo.png
           test -s out/assets/yulia/tools/hero.png
           test -s out/assets/yulia/portfolio/00_blurred_girl_first.webp
+          test -s out/assets/yulia/portfolio/IMG_2994.webp
           if grep -R -q '/Yulia-Roleva/_next' out/index.html out/_next 2>/dev/null; then
             echo 'Old GitHub project Next path still present' >&2
             exit 1
