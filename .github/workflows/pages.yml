@@ -94,6 +94,10 @@ jobs:
         working-directory: template
         run: node ../customer/patch-yulia.mjs
 
+      - name: Apply final Yulia cleanup
+        working-directory: template
+        run: node ../customer/post-yulia.mjs
+
       - name: Configure Pages for Yulia repository path
         working-directory: template
         run: |
