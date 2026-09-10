@@ -69,7 +69,7 @@ if (endIndex < 0) throw new Error("Yulia v4: service renderer end not found");
 const renderer = `            {visibleServices.map((service) => {
               const hasVariants = Boolean(service.variants?.length);
               return (
-                <article className={\`mct-service-row yulia-price-row\${service.sectionLabel ? " has-group-label" : ""}\${hasVariants ? " has-variants" : ""}\`} key={\`\${service.sectionKey ?? category}-\${service.name}\`}>
+                <a className={\`mct-service-row yulia-price-row yulia-service-link\${service.sectionLabel ? " has-group-label" : ""}\${hasVariants ? " has-variants" : ""}\`} href={service.url} target="_blank" rel="noopener noreferrer" aria-label={\`\${service.name} — открыть запись в Dikidi\`} key={\`\${service.sectionKey ?? category}-\${service.name}\`}>
                   {service.sectionLabel && <div className="mct-service-group-label">{service.sectionLabel}</div>}
                   <div className="yulia-service-body">
                     <div className="yulia-service-head">
@@ -89,7 +89,7 @@ const renderer = `            {visibleServices.map((service) => {
                       </div>
                     )}
                   </div>
-                </article>
+                </a>
               );
             })}`;
 source = source.slice(0, startIndex) + renderer + source.slice(endIndex + rendererEnd.length);
@@ -185,6 +185,17 @@ css += `
   .mct-service-list {
     margin-top: 18px !important;
     border-top: 0 !important;
+  }
+
+  .yulia-service-link {
+    color: inherit !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .yulia-service-link:active {
+    opacity: .72 !important;
   }
   .mct-service-row.yulia-price-row,
   .mct-service-row.yulia-price-row.has-variants,
