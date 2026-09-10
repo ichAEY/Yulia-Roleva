@@ -17,11 +17,17 @@ function replaceRegexRequired(pattern, replacement, label) {
   source = source.replace(pattern, replacement);
 }
 
-/* 1. Intro: keep the existing intro timing/screen animation, but render Julia's uploaded logo instead of text. */
+/* 1. Intro: render Julia's uploaded logo and extend the intro just enough for a soft entrance and exit. */
 replaceRegexRequired(
   /<div className="mct-intro-mark">[\s\S]*?<\/div>/,
   '<div className="mct-intro-mark mct-intro-mark-yulia"><img className="mct-intro-logo-yulia" src="/assets/yulia/intro-logo.png" alt="" /></div>',
   "intro logo",
+);
+
+replaceRequired(
+  '}, reduceMotion ? 180 : 1750);',
+  '}, reduceMotion ? 180 : 2300);',
+  "soft intro timer",
 );
 
 /* 2. Top-left brand: replace the typography ЮР with the uploaded logo while keeping the same visual footprint. */
@@ -43,8 +49,8 @@ css += `
 /* Yulia v6 — uploaded identity assets + VK contact. */
 .mct-brand-yulia-image {
   display: inline-flex !important;
-  width: 78px !important;
-  height: 42px !important;
+  width: 83.5px !important;
+  height: 45px !important;
   align-items: center !important;
   justify-content: flex-start !important;
   overflow: visible !important;
@@ -53,10 +59,10 @@ css += `
 
 .mct-brand-yulia-image img {
   display: block !important;
-  width: 78px !important;
-  height: 42px !important;
-  max-width: 78px !important;
-  max-height: 42px !important;
+  width: 83.5px !important;
+  height: 45px !important;
+  max-width: 83.5px !important;
+  max-height: 45px !important;
   object-fit: contain !important;
   object-position: left center !important;
 }
@@ -77,7 +83,7 @@ css += `
   max-height: 180px !important;
   object-fit: contain !important;
   object-position: center !important;
-  animation: mctIntroLogoYulia 1.58s cubic-bezier(.16, .84, .32, 1) both !important;
+  animation: mctIntroLogoYulia 2.12s cubic-bezier(.22, .72, .24, 1) both !important;
   user-select: none !important;
   -webkit-user-drag: none !important;
 }
@@ -85,28 +91,52 @@ css += `
 @keyframes mctIntroLogoYulia {
   0% {
     opacity: 0;
-    transform: translateY(7px) scale(.975);
-    filter: blur(1.5px);
+    transform: translateY(5px) scale(.985);
+    filter: blur(1px);
   }
-  42% {
+  18% {
+    opacity: .28;
+    transform: translateY(3px) scale(.99);
+    filter: blur(.55px);
+  }
+  44% {
     opacity: 1;
     transform: translateY(0) scale(1);
     filter: blur(0);
   }
-  78% {
+  72% {
     opacity: 1;
     transform: translateY(0) scale(1);
     filter: blur(0);
   }
   100% {
-    opacity: .98;
+    opacity: 1;
     transform: translateY(0) scale(1);
     filter: blur(0);
   }
 }
 
+@keyframes mctIntroScreenYulia {
+  0%, 68% {
+    opacity: 1;
+    visibility: visible;
+  }
+  82% {
+    opacity: .72;
+    visibility: visible;
+  }
+  92% {
+    opacity: .28;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 .mct-intro {
-  animation-timing-function: ease-in-out !important;
+  animation: mctIntroScreenYulia 2.2s cubic-bezier(.4, 0, .2, 1) both !important;
 }
 
 .mct-final-secondary.is-vk .mct-contact-icon {
