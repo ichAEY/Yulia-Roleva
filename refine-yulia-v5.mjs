@@ -20,10 +20,11 @@ source = source.replace(
 
 css += `
 
-/* Yulia v5 — final uploaded hero image with only a subtle edge blend. */
+/* Yulia v5 — seamless hero blend using the photo itself as the local colour bridge. */
 @media (max-width: 767px) {
   .mct-hero-visual {
     position: relative !important;
+    overflow: visible !important;
   }
 
   .mct-yulia-tools {
@@ -35,6 +36,21 @@ css += `
     justify-content: center !important;
     overflow: visible !important;
     pointer-events: none !important;
+    isolation: isolate !important;
+  }
+
+  /* A very soft copy of the same image extends its real edge colours into the site background. */
+  .mct-yulia-tools::before {
+    content: "" !important;
+    position: absolute !important;
+    z-index: 0 !important;
+    inset: 7% 5% 4% !important;
+    background: url("/Yulia-Roleva/assets/yulia/tools/hero.png") center / contain no-repeat !important;
+    filter: blur(24px) !important;
+    opacity: .38 !important;
+    transform: scale(1.06) !important;
+    transform-origin: center !important;
+    pointer-events: none !important;
   }
 
   .mct-yulia-tool,
@@ -44,6 +60,8 @@ css += `
   }
 
   .mct-yulia-hero-image {
+    position: relative !important;
+    z-index: 1 !important;
     display: block !important;
     width: min(96vw, 398px) !important;
     max-width: none !important;
@@ -53,27 +71,25 @@ css += `
     user-select: none !important;
     -webkit-user-drag: none !important;
 
-    /* Very light feathering: almost untouched on top, slightly softer at the bottom. */
+    /* Keep almost the whole photo intact. Only the outer frame dissolves; bottom is slightly softer. */
     -webkit-mask-image: radial-gradient(
-      ellipse 76% 82% at 50% 43%,
+      ellipse 92% 96% at 50% 44%,
       #000 0%,
-      #000 48%,
-      rgba(0,0,0,.995) 55%,
-      rgba(0,0,0,.97) 62%,
-      rgba(0,0,0,.90) 70%,
-      rgba(0,0,0,.75) 82%,
-      rgba(0,0,0,.45) 92%,
+      #000 80%,
+      rgba(0,0,0,.99) 85%,
+      rgba(0,0,0,.94) 89%,
+      rgba(0,0,0,.80) 93%,
+      rgba(0,0,0,.52) 97%,
       transparent 100%
     ) !important;
     mask-image: radial-gradient(
-      ellipse 76% 82% at 50% 43%,
+      ellipse 92% 96% at 50% 44%,
       #000 0%,
-      #000 48%,
-      rgba(0,0,0,.995) 55%,
-      rgba(0,0,0,.97) 62%,
-      rgba(0,0,0,.90) 70%,
-      rgba(0,0,0,.75) 82%,
-      rgba(0,0,0,.45) 92%,
+      #000 80%,
+      rgba(0,0,0,.99) 85%,
+      rgba(0,0,0,.94) 89%,
+      rgba(0,0,0,.80) 93%,
+      rgba(0,0,0,.52) 97%,
       transparent 100%
     ) !important;
     -webkit-mask-repeat: no-repeat !important;
@@ -110,4 +126,4 @@ css += `
 
 fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Applied uploaded hero image with subtle asymmetric feathering");
+console.log("Applied seamless hero colour bridge with minimal edge feathering");
