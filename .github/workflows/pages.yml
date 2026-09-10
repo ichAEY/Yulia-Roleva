@@ -150,6 +150,15 @@ jobs:
         working-directory: template
         run: npx next build
 
+      - name: Harden Pages output
+        working-directory: template
+        run: |
+          test -s out/index.html
+          test -d out/_next
+          grep -q "Юлия Ролева" out/index.html
+          touch out/.nojekyll
+          cp out/index.html out/404.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
