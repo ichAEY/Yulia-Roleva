@@ -500,8 +500,24 @@ css += `
     white-space: nowrap !important;
   }
 
-  .mct-more-services {
+  .mct-service-list.is-collapsed > .mct-service-row.yulia-price-row:nth-child(n + 10) {
     display: none !important;
+  }
+
+  .mct-more-services {
+    display: flex !important;
+    width: min(100%, 420px) !important;
+    min-height: 48px !important;
+    margin: 24px auto 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    border: 1px solid rgba(87,68,61,.14) !important;
+    border-radius: 999px !important;
+    background: #f0e7e1 !important;
+    color: #3f3936 !important;
+    font: 600 11px/1 "Manrope", Arial, sans-serif !important;
+    cursor: pointer !important;
   }
 
   /* REVIEWS: desktop uses the exact same real review array as mobile, without fake summary cards. */
