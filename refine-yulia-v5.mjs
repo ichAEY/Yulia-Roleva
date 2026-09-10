@@ -1,14 +1,23 @@
 import fs from "node:fs";
 
+const componentPath = "app/mobile-claytone.tsx";
 const cssPath = "app/globals.css";
+let source = fs.readFileSync(componentPath, "utf8");
 let css = fs.readFileSync(cssPath, "utf8");
 
 /*
   Yulia v5 — final hero tools + contact icon polish.
-  Keep every existing hero element unchanged. Only reduce the comb so the
-  scissors remain the dominant object, preserve the natural crossed layout,
-  and replace the buggy WhatsApp glyph with a simple message illustration.
+  Keep the approved composition. Increase the comb by exactly 10% from the
+  previous approved size and make the WhatsApp contact illustration use the
+  same clean Telegram-style paper-plane icon language.
 */
+
+/* Replace the WhatsApp drawing inserted earlier with a clean Telegram-style paper plane. */
+source = source.replace(
+  /<svg className="mct-whatsapp-svg"[\s\S]*?<\/svg>/,
+  '<svg className="mct-whatsapp-svg mct-telegram-style-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.7 11.35 19.5 4.8c.73-.3 1.37.18 1.12 1.34l-2.69 12.68c-.2.9-.73 1.12-1.48.7l-4.1-3.02-1.98 1.9c-.22.22-.4.4-.82.4l.3-4.18 7.6-6.87c.33-.3-.07-.47-.51-.17l-9.4 5.92-4.04-1.26c-.88-.28-.9-.88.2-1.31Z"/></svg>',
+);
+
 css += `
 
 /* Yulia v5 — approved scissors + comb composition. */
@@ -39,17 +48,16 @@ css += `
       drop-shadow(0 15px 18px rgba(45, 35, 30, .11)) !important;
   }
 
-  /* Smaller comb, still lower-left -> upper-right and behind the scissors. */
+  /* Exactly +10% versus the previous 68vw / 270px comb size. */
   .mct-yulia-comb {
     z-index: 1 !important;
     left: 52% !important;
     top: 50% !important;
-    width: min(68vw, 270px) !important;
-    height: min(68vw, 270px) !important;
+    width: min(74.8vw, 297px) !important;
+    height: min(74.8vw, 297px) !important;
     transform: translate(-50%, -50%) rotate(0deg) scale(1) !important;
   }
 
-  /* Scissors remain the dominant foreground object. */
   .mct-yulia-scissors {
     z-index: 2 !important;
     left: 49% !important;
@@ -62,44 +70,23 @@ css += `
       drop-shadow(0 13px 17px rgba(45, 35, 30, .12)) !important;
   }
 
-  /* WhatsApp: use a clean generic message-bubble illustration instead of the buggy glyph. */
+  /* WhatsApp label, Telegram-style icon: same clean paper-plane illustration language. */
   .mct-final-secondary.is-whatsapp .mct-contact-icon {
-    position: relative !important;
     display: grid !important;
     place-items: center !important;
     overflow: visible !important;
   }
-  .mct-final-secondary.is-whatsapp .mct-contact-icon .mct-whatsapp-svg {
-    display: none !important;
-  }
-  .mct-final-secondary.is-whatsapp .mct-contact-icon::before {
-    content: "" !important;
-    display: block !important;
-    position: absolute !important;
-    left: 50% !important;
-    top: 48% !important;
-    width: 18px !important;
-    height: 13px !important;
-    transform: translate(-50%, -50%) !important;
-    border: 1.6px solid currentColor !important;
-    border-radius: 6px !important;
-    background: transparent !important;
-    box-sizing: border-box !important;
-  }
+  .mct-final-secondary.is-whatsapp .mct-contact-icon::before,
   .mct-final-secondary.is-whatsapp .mct-contact-icon::after {
-    content: "" !important;
+    display: none !important;
+    content: none !important;
+  }
+  .mct-final-secondary.is-whatsapp .mct-contact-icon .mct-whatsapp-svg {
     display: block !important;
-    position: absolute !important;
-    left: calc(50% - 5px) !important;
-    top: calc(48% + 5px) !important;
-    width: 6px !important;
-    height: 6px !important;
-    border-left: 1.6px solid currentColor !important;
-    border-bottom: 1.6px solid currentColor !important;
-    background: inherit !important;
-    transform: rotate(-28deg) !important;
-    border-radius: 0 0 0 2px !important;
-    box-sizing: border-box !important;
+    width: 21px !important;
+    height: 21px !important;
+    fill: currentColor !important;
+    stroke: none !important;
   }
 }
 
@@ -108,5 +95,6 @@ css += `
 }
 `;
 
+fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Applied smaller comb and clean WhatsApp message icon");
+console.log("Applied +10% comb size and Telegram-style WhatsApp icon");
