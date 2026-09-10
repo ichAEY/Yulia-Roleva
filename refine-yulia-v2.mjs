@@ -57,24 +57,19 @@ replaceRegexRequired(
   "replace Yulia footer with STLuxe TANEM footer",
 );
 
-/* 4. In the contact grid replace the Dikidi tile with WhatsApp.
-   The main online-booking CTA remains Dikidi; only the contact option changes. */
-replaceRegexRequired(
-  /<a className="mct-final-secondary" href=\{bookingUrl\} target="_blank" rel="noopener noreferrer">[\s\S]*?<span className="mct-contact-copy"><strong>Dikidi<\/strong><small>Онлайн-запись<\/small><\/span><i className="mct-link-arrow" aria-hidden="true" \/><\/a>/,
-`<a className="mct-final-secondary is-whatsapp" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">
-                  <span className="mct-contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11.7a8 8 0 0 1-11.7 7L4 20l1.3-4A8 8 0 1 1 20 11.7Z" /><path d="M8.8 8.2c.7 2.2 2.3 3.9 4.6 4.7" /><path d="m8.8 8.2 1.2-.6M13.4 12.9l.8-1" /></svg></span>
-                  <span className="mct-contact-copy"><strong>WhatsApp</strong><small>Написать Юлии</small></span><i className="mct-link-arrow" aria-hidden="true" />
-                </a>`,
-  "replace Dikidi contact tile with WhatsApp",
+/* 4. In the contact grid replace only the Dikidi secondary tile with WhatsApp.
+   The primary online booking button remains Dikidi. */
+replaceRequired(
+  '<a className="mct-final-secondary" href={bookingUrl} target="_blank" rel="noopener noreferrer">',
+  `<a className="mct-final-secondary is-whatsapp" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">`,
+  "Dikidi contact href to WhatsApp",
 );
-source = source.replace(
-  '<span className="mct-contact-copy"><strong>Личный Telegram</strong><small>Написать Юлии Ролевой</small></span>',
-  '<span className="mct-contact-copy"><strong>Telegram</strong><small>Написать Юлии Ролевой</small></span>',
+replaceRequired(
+  '<span className="mct-contact-copy"><strong>Dikidi</strong><small>Онлайн-запись</small></span>',
+  '<span className="mct-contact-copy"><strong>WhatsApp</strong><small>Написать Юлии</small></span>',
+  "Dikidi contact text to WhatsApp",
 );
-source = source.replace(
-  '<span className="mct-contact-copy"><strong>Личный Telegram</strong><small>Написать Юлии</small></span>',
-  '<span className="mct-contact-copy"><strong>Telegram</strong><small>Написать Юлии</small></span>',
-);
+source = source.split("<strong>Личный Telegram</strong>").join("<strong>Telegram</strong>");
 
 /* 5. Header monogram is plain typography, not the supplied logo image. */
 replaceRequired(
@@ -101,7 +96,7 @@ css += `
   text-decoration: none !important;
 }
 
-/* Exact STLuxe service-row hierarchy adapted to Yulia's existing component names. */
+/* STLuxe service-row hierarchy adapted to Yulia's existing component names. */
 .mct-service-list {
   margin-top: 18px !important;
   border-top: 1px solid rgba(55,47,42,.18) !important;
@@ -220,20 +215,35 @@ css += `
   letter-spacing: .005em !important;
 }
 
-/* WhatsApp contact tile: same restrained contact-card system, only branded accent. */
+/* WhatsApp contact tile: use WhatsApp visual language, without changing the grid layout. */
 .mct-final-secondary.is-whatsapp .mct-contact-icon {
+  position: relative;
   background: #e9f7f0 !important;
   color: #128c7e !important;
 }
-.mct-final-secondary.is-whatsapp .mct-contact-icon svg {
-  fill: none !important;
-  stroke: currentColor !important;
-  stroke-width: 1.65 !important;
-  stroke-linecap: round !important;
-  stroke-linejoin: round !important;
+.mct-final-secondary.is-whatsapp .mct-contact-icon svg { display: none !important; }
+.mct-final-secondary.is-whatsapp .mct-contact-icon::before {
+  content: "";
+  width: 19px;
+  height: 19px;
+  display: block;
+  border: 1.8px solid currentColor;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.mct-final-secondary.is-whatsapp .mct-contact-icon::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: 9px;
+  width: 6px;
+  height: 6px;
+  border-left: 1.8px solid currentColor;
+  border-bottom: 1.8px solid currentColor;
+  transform: rotate(-18deg);
 }
 
-/* Replace the former Yulia identity footer with STLuxe's TANEM footer treatment exactly. */
+/* Replace the former Yulia identity footer with STLuxe's TANEM footer treatment. */
 .dct-footer.dct-footer-stluxe {
   display: block !important;
   height: auto !important;
