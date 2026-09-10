@@ -43,7 +43,7 @@ jobs:
           cp tahmina-template/final-refinements.mjs customer/final-refinements.mjs
           cp tahmina-template/last-services-polish.mjs customer/last-services-polish.mjs
 
-      - name: Apply Yulia content, photos and hair tools
+      - name: Apply Yulia content, photos and hero image
         run: |
           cp customer/site-data.mjs template/site-data.mjs
           mkdir -p template/public/assets/yulia/portfolio template/public/assets/yulia/tools
@@ -52,6 +52,7 @@ jobs:
           cp customer/IMG_2963.webp template/public/assets/yulia/about.webp
           cp customer/0A6D15B8-18BB-4BD3-A9C7-8917F7BFCD65.png template/public/assets/yulia/tools/comb.png
           cp customer/C469DB40-1348-404A-9840-A814F476BA5B.png template/public/assets/yulia/tools/scissors.png
+          cp customer/DB826D5B-8401-4D86-B29A-375785179924.png template/public/assets/yulia/tools/hero.png
           for file in \
             00_blurred_girl_first.webp \
             222e5ba9-b172-55a2-88f9-ee7b1c3a758a.webp \
@@ -112,7 +113,7 @@ jobs:
         working-directory: template
         run: node ../customer/refine-yulia-v4.mjs
 
-      - name: Match hero tools to approved reference
+      - name: Use uploaded hero image and final contact icon
         working-directory: template
         run: node ../customer/refine-yulia-v5.mjs
 
@@ -166,8 +167,7 @@ jobs:
           test -s out/index.html
           test -d out/_next
           grep -q "Юлия Ролева" out/index.html
-          test -s out/assets/yulia/tools/comb.png
-          test -s out/assets/yulia/tools/scissors.png
+          test -s out/assets/yulia/tools/hero.png
           touch out/.nojekyll
           cp out/index.html out/404.html
 
