@@ -20,7 +20,7 @@ source = source.replace(
 
 css += `
 
-/* Yulia v5 — final uploaded hero image, blended seamlessly into the page. */
+/* Yulia v5 — final uploaded hero image, blended fully into the hero background. */
 @media (max-width: 767px) {
   .mct-hero-visual {
     position: relative !important;
@@ -52,8 +52,30 @@ css += `
     object-position: center !important;
     user-select: none !important;
     -webkit-user-drag: none !important;
-    -webkit-mask-image: radial-gradient(ellipse 76% 80% at 50% 50%, #000 0%, #000 67%, rgba(0,0,0,.98) 72%, rgba(0,0,0,.82) 80%, rgba(0,0,0,.45) 90%, transparent 100%) !important;
-    mask-image: radial-gradient(ellipse 76% 80% at 50% 50%, #000 0%, #000 67%, rgba(0,0,0,.98) 72%, rgba(0,0,0,.82) 80%, rgba(0,0,0,.45) 90%, transparent 100%) !important;
+
+    /* Strong feathering on all four sides so the rectangular image boundary disappears. */
+    -webkit-mask-image: radial-gradient(
+      ellipse 67% 72% at 50% 50%,
+      #000 0%,
+      #000 52%,
+      rgba(0,0,0,.98) 57%,
+      rgba(0,0,0,.88) 64%,
+      rgba(0,0,0,.68) 72%,
+      rgba(0,0,0,.40) 82%,
+      rgba(0,0,0,.14) 92%,
+      transparent 100%
+    ) !important;
+    mask-image: radial-gradient(
+      ellipse 67% 72% at 50% 50%,
+      #000 0%,
+      #000 52%,
+      rgba(0,0,0,.98) 57%,
+      rgba(0,0,0,.88) 64%,
+      rgba(0,0,0,.68) 72%,
+      rgba(0,0,0,.40) 82%,
+      rgba(0,0,0,.14) 92%,
+      transparent 100%
+    ) !important;
     -webkit-mask-repeat: no-repeat !important;
     mask-repeat: no-repeat !important;
     -webkit-mask-position: center !important;
@@ -88,4 +110,4 @@ css += `
 
 fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Applied uploaded hero image with seamless feathered edges");
+console.log("Applied uploaded hero image with full seamless feathering");
