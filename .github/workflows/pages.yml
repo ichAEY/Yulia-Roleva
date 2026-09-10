@@ -52,7 +52,7 @@ jobs:
           cp customer/IMG_2963.webp template/public/assets/yulia/about.webp
           cp customer/0A6D15B8-18BB-4BD3-A9C7-8917F7BFCD65.png template/public/assets/yulia/tools/comb.png
           cp customer/C469DB40-1348-404A-9840-A814F476BA5B.png template/public/assets/yulia/tools/scissors.png
-          cp customer/DB826D5B-8401-4D86-B29A-375785179924.png template/public/assets/yulia/tools/hero.png
+          cp customer/48FF1CCE-CB9A-4FB2-9EAC-E67D2054AECE.png template/public/assets/yulia/tools/hero.png
           for file in \
             00_blurred_girl_first.webp \
             222e5ba9-b172-55a2-88f9-ee7b1c3a758a.webp \
