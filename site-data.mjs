@@ -95,6 +95,7 @@ export default {
       "IMG_2952.webp",
       "IMG_2953.webp",
       "IMG_2954.webp",
+      "IMG_2994.webp",
     ].map((file, index) => ({
       src: `${assetBase}/portfolio/${file}`,
       alt: `Работа Юлии Ролевой — фото ${index + 1}`,
