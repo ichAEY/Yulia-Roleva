@@ -20,12 +20,20 @@ source = source.replace(
 
 css += `
 
-/* Yulia v6 — new hero photo fitted into the block with a seamless natural blend. */
+/* Yulia v7 — preserve the new hero photo and remove only the visible background seam. */
 @media (max-width: 767px) {
   .mct-hero-visual {
     position: relative !important;
     overflow: hidden !important;
     isolation: isolate !important;
+    background: linear-gradient(
+      to bottom,
+      #f7f4ed 0%,
+      #f4f1ea 12%,
+      #efebe4 28%,
+      #ede9e2 48%,
+      #e9e5de 100%
+    ) !important;
   }
 
   .mct-yulia-tools {
@@ -40,17 +48,38 @@ css += `
     isolation: isolate !important;
   }
 
-  /* Use the same photo as a very soft colour bridge so its background melts into the hero. */
+  /* A restrained blurred copy carries the photo's real cream tones beyond its lower/side edges. */
   .mct-yulia-tools::before {
     content: "" !important;
     position: absolute !important;
     z-index: 0 !important;
-    inset: 7% -10% -9% !important;
+    inset: 10% -10% -9% !important;
     background: url("/Yulia-Roleva/assets/yulia/tools/hero.png") center 68% / cover no-repeat !important;
-    filter: blur(34px) saturate(.96) !important;
-    opacity: .44 !important;
-    transform: scale(1.11) !important;
+    filter: blur(30px) saturate(.96) !important;
+    opacity: .24 !important;
+    transform: scale(1.10) !important;
     transform-origin: center bottom !important;
+    pointer-events: none !important;
+  }
+
+  /* Short top veil: matches the page background first, then disappears before the tools begin. */
+  .mct-yulia-tools::after {
+    content: "" !important;
+    position: absolute !important;
+    z-index: 2 !important;
+    top: -1px !important;
+    left: -4% !important;
+    right: -4% !important;
+    height: 82px !important;
+    background: linear-gradient(
+      to bottom,
+      #f7f4ed 0%,
+      rgba(247,244,237,.98) 16%,
+      rgba(246,243,236,.90) 34%,
+      rgba(243,240,233,.66) 55%,
+      rgba(240,237,230,.30) 76%,
+      rgba(238,235,228,0) 100%
+    ) !important;
     pointer-events: none !important;
   }
 
@@ -73,27 +102,23 @@ css += `
     user-select: none !important;
     -webkit-user-drag: none !important;
 
-    /* Keep the image itself almost untouched: tiny fade at the top, softer only at the bottom. */
+    /* No fade at the top: keep the photo sharp. Only the very bottom edge softens. */
     -webkit-mask-image: linear-gradient(
       to bottom,
-      transparent 0%,
-      rgba(0,0,0,.72) 3%,
-      #000 6%,
-      #000 84%,
-      rgba(0,0,0,.96) 89%,
-      rgba(0,0,0,.78) 94%,
-      rgba(0,0,0,.42) 98%,
+      #000 0%,
+      #000 92%,
+      rgba(0,0,0,.98) 95%,
+      rgba(0,0,0,.82) 97.5%,
+      rgba(0,0,0,.42) 99%,
       transparent 100%
     ) !important;
     mask-image: linear-gradient(
       to bottom,
-      transparent 0%,
-      rgba(0,0,0,.72) 3%,
-      #000 6%,
-      #000 84%,
-      rgba(0,0,0,.96) 89%,
-      rgba(0,0,0,.78) 94%,
-      rgba(0,0,0,.42) 98%,
+      #000 0%,
+      #000 92%,
+      rgba(0,0,0,.98) 95%,
+      rgba(0,0,0,.82) 97.5%,
+      rgba(0,0,0,.42) 99%,
       transparent 100%
     ) !important;
     -webkit-mask-repeat: no-repeat !important;
@@ -130,4 +155,4 @@ css += `
 
 fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Applied new Yulia hero image with low placement and seamless background blend");
+console.log("Applied seam-free Yulia hero background while preserving photo sharpness");
