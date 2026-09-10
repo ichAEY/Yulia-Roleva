@@ -72,7 +72,8 @@ css += `
     height: auto !important;
     object-fit: contain !important;
     object-position: center bottom !important;
-    transform: translateY(22px) !important;
+    transform: translateY(22px) scale(0.9) !important;
+    transform-origin: center bottom !important;
     user-select: none !important;
     -webkit-user-drag: none !important;
     filter: none !important;
