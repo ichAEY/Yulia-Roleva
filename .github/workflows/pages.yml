@@ -102,6 +102,10 @@ jobs:
         working-directory: template
         run: node ../customer/refine-yulia-v2.mjs
 
+      - name: Apply exact STLuxe price and footer structure
+        working-directory: template
+        run: node ../customer/refine-yulia-v3.mjs
+
       - name: Configure Pages for Yulia repository path
         working-directory: template
         run: |
