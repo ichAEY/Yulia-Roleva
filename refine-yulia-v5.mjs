@@ -20,36 +20,37 @@ source = source.replace(
 
 css += `
 
-/* Yulia v5 — seamless hero blend using the photo itself as the local colour bridge. */
+/* Yulia v6 — new hero photo fitted into the block with a seamless natural blend. */
 @media (max-width: 767px) {
   .mct-hero-visual {
     position: relative !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
   }
 
   .mct-yulia-tools {
     position: absolute !important;
     z-index: 6 !important;
-    inset: 0 !important;
+    inset: 0 -3% -3% !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-end !important;
     justify-content: center !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     pointer-events: none !important;
     isolation: isolate !important;
   }
 
-  /* A very soft copy of the same image extends its real edge colours into the site background. */
+  /* Use the same photo as a very soft colour bridge so its background melts into the hero. */
   .mct-yulia-tools::before {
     content: "" !important;
     position: absolute !important;
     z-index: 0 !important;
-    inset: 7% 5% 4% !important;
-    background: url("/Yulia-Roleva/assets/yulia/tools/hero.png") center / contain no-repeat !important;
-    filter: blur(24px) !important;
-    opacity: .38 !important;
-    transform: scale(1.06) !important;
-    transform-origin: center !important;
+    inset: 7% -10% -9% !important;
+    background: url("/Yulia-Roleva/assets/yulia/tools/hero.png") center 68% / cover no-repeat !important;
+    filter: blur(34px) saturate(.96) !important;
+    opacity: .44 !important;
+    transform: scale(1.11) !important;
+    transform-origin: center bottom !important;
     pointer-events: none !important;
   }
 
@@ -63,33 +64,36 @@ css += `
     position: relative !important;
     z-index: 1 !important;
     display: block !important;
-    width: min(96vw, 398px) !important;
+    width: min(110vw, 452px) !important;
     max-width: none !important;
     height: auto !important;
     object-fit: contain !important;
-    object-position: center !important;
+    object-position: center bottom !important;
+    transform: translateY(22px) !important;
     user-select: none !important;
     -webkit-user-drag: none !important;
 
-    /* Keep almost the whole photo intact. Only the outer frame dissolves; bottom is slightly softer. */
-    -webkit-mask-image: radial-gradient(
-      ellipse 92% 96% at 50% 44%,
-      #000 0%,
-      #000 80%,
-      rgba(0,0,0,.99) 85%,
-      rgba(0,0,0,.94) 89%,
-      rgba(0,0,0,.80) 93%,
-      rgba(0,0,0,.52) 97%,
+    /* Keep the image itself almost untouched: tiny fade at the top, softer only at the bottom. */
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0,0,0,.72) 3%,
+      #000 6%,
+      #000 84%,
+      rgba(0,0,0,.96) 89%,
+      rgba(0,0,0,.78) 94%,
+      rgba(0,0,0,.42) 98%,
       transparent 100%
     ) !important;
-    mask-image: radial-gradient(
-      ellipse 92% 96% at 50% 44%,
-      #000 0%,
-      #000 80%,
-      rgba(0,0,0,.99) 85%,
-      rgba(0,0,0,.94) 89%,
-      rgba(0,0,0,.80) 93%,
-      rgba(0,0,0,.52) 97%,
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0,0,0,.72) 3%,
+      #000 6%,
+      #000 84%,
+      rgba(0,0,0,.96) 89%,
+      rgba(0,0,0,.78) 94%,
+      rgba(0,0,0,.42) 98%,
       transparent 100%
     ) !important;
     -webkit-mask-repeat: no-repeat !important;
@@ -126,4 +130,4 @@ css += `
 
 fs.writeFileSync(componentPath, source);
 fs.writeFileSync(cssPath, css);
-console.log("Applied seamless hero colour bridge with minimal edge feathering");
+console.log("Applied new Yulia hero image with low placement and seamless background blend");
